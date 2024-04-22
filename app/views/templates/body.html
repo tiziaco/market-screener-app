@@ -1,0 +1,56 @@
+<!-- Header -->
+<body>
+	<header class="bg-dark text-white py-4">
+		<div class="container">
+		<h1 class="display-4">📈 Crypto Screener</h1>
+		</div>
+	</header>
+  
+	<!-- Body -->
+	<div class="container mt-4">
+		<div class="row">
+		<div class="col-md-8">
+			<!-- Watchlist Card -->
+			<div class="card">
+			<div class="card-body">
+				<h5 class="card-title">Watchlist</h5>
+				<!-- Example symbol -->
+				<table class="table">
+					<thead>
+						<tr>
+							<th scope="col">Symbol</th>
+							<th scope="col">Price</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for row in table_data %}
+						<tr>
+							<td>{{ row['symbol'] }}</td>
+							<td>{{ row['price'] }}</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+			</div>
+		</div>
+		<div class="col-md-4">
+			<!-- Add Symbol Card -->
+			<div class="card">
+			<div class="card-header">
+				Add Symbol
+			</div>
+			<div class="card-body">
+				<!-- Form to add a new symbol -->
+				<form>
+				<div class="form-group">
+					<label for="symbolInput">Symbol:</label>
+					<input type="text" class="form-control" id="symbolInput" placeholder="Enter symbol">
+				</div>
+				<button type="submit" class="btn btn-primary" id="addSymbolBtn">Add Symbol</button>
+				</form>
+			</div>
+			</div>
+		</div>
+		</div>
+	</div>

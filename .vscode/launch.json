@@ -1,0 +1,23 @@
+{
+	// Use IntelliSense to learn about possible attributes.
+	// Hover to view descriptions of existing attributes.
+	// For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "Python Flask Debugger",
+			"type": "debugpy",
+			"request": "launch",
+			"program": "/Users/tizianoiacovelli/Library/Caches/pypoetry/virtualenvs/market-screener-i6iNJAti-py3.12/bin/flask",
+			"console": "integratedTerminal",
+			"args": ["run"]
+		},
+		{
+			"name": "Python File Debugger",
+			"type": "debugpy",
+			"request": "launch",
+			"program": "${file}",
+			"console": "integratedTerminal"
+		}
+	]
+}
