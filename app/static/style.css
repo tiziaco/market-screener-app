@@ -1,0 +1,23 @@
+button {
+	background-color: transparent;
+	border: none;
+}
+
+.table-row {
+    height: 45px; /* Set a fixed height for table rows */
+}
+
+.delete-column {
+    width: 10%; /* Set a fixed width for the column containing the delete button */
+}
+
+.delete-btn {
+	display: none;
+	height: 40%;
+	color: rgb(200, 0, 0);
+}
+
+.table-row:hover .delete-btn {
+	height: 40%;
+    display: inline-block; /* Display the delete button when hovering over the table row */
+}
