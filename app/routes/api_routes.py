@@ -1,7 +1,8 @@
+import json
 from flask import Response, Blueprint, jsonify, request
 from threading import Thread
 
-from app import ws, db, logger
+from app import ws, db, logger, wc
 from ..models.watchlist import WatchlistSymbol
 
 api_blueprint = Blueprint('api', __name__)
@@ -52,21 +53,13 @@ def watchlist_add_symbol():
 
 @api_blueprint.route('/watchlist/delete-symbol/<int:symbol_id>', methods=['DELETE'])
 def watchlist_delete_symbol(symbol_id):
-	symbol = WatchlistSymbol.query.get(symbol_id)
-
-	if not symbol:
-		return jsonify({'error': 'Symbol not found'}), 404
-
-	# Delete the symbol from the database
-	db.session.delete(symbol)
-	db.session.commit()
-
-	return jsonify({'message': 'WatchlistSymbol deleted successfully'}), 200
+	deleted = wc.delete_symbol(symbol_id)
+	if deleted:
+		return Response('Symbol deleted successfully', status=200, mimetype='application/json')
+	else:
+		return Response('Symbol not found or deletion failed', status=404, mimetype='application/json')
 
 @api_blueprint.route('/watchlist/get-symbols', methods=['GET'])
 def watchlist_get_symbols():
-	symbols = WatchlistSymbol.query.all()
-
-	symbol_list = [{'id': symbol.id, 'name': symbol.name} for symbol in symbols]
-
-	return jsonify({'symbols': symbol_list}), 200
+	symbol_dict = wc.get_all_symbols()
+	return Response(json.dumps(symbol_dict), status=200, mimetype='application/json')
