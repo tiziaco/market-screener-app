@@ -1,3 +1,10 @@
+.pingCircle {
+    width: 30px; /* Adjust the width and height as needed */
+    height: 30px;
+    background-color: darkgreen;
+    border-radius: 50%; /* This creates a circle */
+}
+
 button {
 	background-color: transparent;
 	border: none;
