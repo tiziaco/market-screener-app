@@ -17,12 +17,21 @@ class WatchlistController:
 		return symbol_dict
 
 	def add_symbol(self, name):
-		symbol = WatchlistSymbol(name=name)
-		self.db.session.add(symbol)
-		self.db.session.commit()
+		# Check if the symbol already exists in the database
+		existing_symbol = WatchlistSymbol.query.filter_by(name=name).first()
+		if existing_symbol:
+			return False
+		
+		# Create a new Symbol object
+		new_symbol = WatchlistSymbol(name=name)
 
-	def delete_symbol(self, symbol_id):
-		symbol = WatchlistSymbol.query.get(symbol_id)
+		# Add the symbol to the database
+		self.db.session.add(new_symbol)
+		self.db.session.commit()
+		return True
+
+	def delete_symbol(self, symbol_name):
+		symbol = WatchlistSymbol.query.filter_by(name=symbol_name).first()
 		if symbol:
 			self.db.session.delete(symbol)
 			self.db.session.commit()
