@@ -2,8 +2,7 @@ import json
 from flask import Response, Blueprint, jsonify, request
 from threading import Thread
 
-from app import ws, db, logger, wc
-from ..models.watchlist import WatchlistSymbol
+from app import ws, logger, wc
 
 api_blueprint = Blueprint('api', __name__)
 
@@ -37,29 +36,23 @@ def watchlist_add_symbol():
 	if not name:
 		return jsonify({'error': 'Symbol name is required'}), 400
 
-	# Check if the symbol already exists in the database
-	existing_symbol = WatchlistSymbol.query.filter_by(name=name).first()
-	if existing_symbol:
-		return jsonify({'error': 'Symbol already exists'}), 400
-
-	# Create a new Symbol object
-	new_symbol = WatchlistSymbol(name=name)
-
-	# Add the symbol to the database
-	db.session.add(new_symbol)
-	db.session.commit()
-	logger.info(f'Watchlist: Symbol added: {name}')
-	return Response('Symbol added successfully', status=200)
-
-@api_blueprint.route('/watchlist/delete-symbol/<int:symbol_id>', methods=['DELETE'])
-def watchlist_delete_symbol(symbol_id):
-	deleted = wc.delete_symbol(symbol_id)
-	if deleted:
-		return Response('Symbol deleted successfully', status=200, mimetype='application/json')
+	added_successfully = wc.add_symbol(name)
+	if added_successfully:
+		return jsonify({'message': 'Symbol added successfully'}), 200
 	else:
-		return Response('Symbol not found or deletion failed', status=404, mimetype='application/json')
+		return jsonify({'message': 'Symbol already exists'}), 400
+
+@api_blueprint.route('/watchlist/delete-symbol', methods=['DELETE'])
+def watchlist_delete_symbol():
+	data = request.get_json()
+	symbol_name = data.get('name')
+	deleted = wc.delete_symbol(symbol_name)
+	if deleted:
+		return jsonify({'message': 'SERVER: Symbol deleted successfully'}), 200
+	else:
+		return jsonify({'message': 'Symbol not found or deletion failed'}), 404
 
 @api_blueprint.route('/watchlist/get-symbols', methods=['GET'])
 def watchlist_get_symbols():
 	symbol_dict = wc.get_all_symbols()
-	return Response(json.dumps(symbol_dict), status=200, mimetype='application/json')
+	return jsonify(symbol_dict), 200
