@@ -5,26 +5,59 @@
     border-radius: 50%; /* This creates a circle */
 }
 
+/* Button styles */
 button {
-	background-color: transparent;
-	border: none;
+    background-color: transparent;
+    border: none;
 }
 
+/* Table styles */
+#watchlist-table {
+    width: 100%; /* Set the table width */
+    border-collapse: collapse; /* Collapse table borders */
+}
+
+/* Header cell styles */
+#watchlist-table th {
+    padding: 8px; /* Adjust cell padding */
+    text-align: left; /* Align text to the left */
+}
+
+/* Column-specific styles */
+.symbol-column {
+    width: 150px; /* Set width for the Symbol column */
+}
+
+.price-column {
+    width: 100px; /* Set width for the Price column */
+}
+
+/* Row styles */
 .table-row {
     height: 45px; /* Set a fixed height for table rows */
+    border-top: 1px solid #dee2e6; /* Add top border to each row */
 }
 
+/* Delete column styles */
 .delete-column {
     width: 10%; /* Set a fixed width for the column containing the delete button */
 }
 
+/* Delete button styles */
 .delete-btn {
-	display: none;
-	height: 40%;
-	color: rgb(200, 0, 0);
+    display: none;
+    height: 40%;
+    color: rgb(200, 0, 0);
 }
 
+/* Display the delete button when hovering over the table row */
 .table-row:hover .delete-btn {
-	height: 40%;
-    display: inline-block; /* Display the delete button when hovering over the table row */
+    height: 40%;
+    display: inline-block;
+}
+
+/* Adjust padding and margin for the icon */
+.delete-btn i {
+    padding: 0;
+    margin: 0;
 }
