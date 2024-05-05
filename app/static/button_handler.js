@@ -34,6 +34,7 @@
 function addSymbol() {
 	var symbolInput = $('#symbolInput').val();
 	var data = { name: symbolInput };
+	var price = 0;
 
 	$.ajax({
 			url: '/watchlist/add-symbol',
@@ -51,7 +52,7 @@ function addSymbol() {
 								</button>
 							</td>
 							<td>${symbolInput}</td>
-							<td><!-- Insert price here --></td>
+							<td>${price}</td>
 						</tr>`
 					);
 			},
@@ -87,22 +88,8 @@ function deleteSymbol(symbolName) {
 	});
 }
 
-// Function to fetch updated data and update the table
-function fetchUpdatedData() {
-	$.ajax({
-			url: '/watchlist/get-symbols',
-			method: 'GET',
-			success: function(response) {
-					console.log('Data succesfully updated');
-					updateTable(response);
-			},
-			error: function(xhr, textStatus, errorThrown) {
-					console.log('Failed to fetch updated data');
-			}
-	});
-}
-
 // Function to update the table with new data
+// TODO: convert in updatePrice
 function updateTable(data) {
 	var tableBody = $('#watchlist-table tbody');
 	tableBody.empty(); // Clear the existing table rows
@@ -125,19 +112,18 @@ function updateTable(data) {
 
 // jQuery document ready function
 $(document).ready(function() {
-	// Call fetchUpdatedData() when the page loads
-	// fetchUpdatedData();
-
 	// Attach click event handler to the addSymbolBtn button
-	$('#addSymbolBtn').click(function() {
-			addSymbol();
+	$('#addSymbolBtn').click(function(event) {
+		// Prevent the default form submission behavior
+        event.preventDefault();
+		addSymbol();
 	});
 });
 
 $(document).ready(function() {
 	// Attach click event handler to the delete buttons within the watchlist table
 	$('#watchlist-table tbody').on('click', '.delete-btn', function() {
-			var symbolName = $(this).closest('tr').find('td:eq(1)').text(); // Assuming symbol name is in the second column (index 1)
+			var symbolName = $(this).closest('tr').find('td:eq(1)').text();
 			deleteSymbol(symbolName);
 	});
 });
