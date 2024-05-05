@@ -30,22 +30,114 @@
 
 // *** Whatchlist callbacks *** //
 
+// Function to add a symbol
+function addSymbol() {
+	var symbolInput = $('#symbolInput').val();
+	var data = { name: symbolInput };
+
+	$.ajax({
+			url: '/watchlist/add-symbol',
+			method: 'POST',
+			contentType: 'application/json',
+			data: JSON.stringify(data),
+			success: function(response) {
+					console.log('Symbol added successfully');
+					// Append a new row to the table with the added symbol
+					$('#watchlist-table tbody').append(
+						`<tr class="table-row">
+							<td>
+								<button class="delete-btn">
+									<i class="bi bi-trash3"></i>
+								</button>
+							</td>
+							<td>${symbolInput}</td>
+							<td><!-- Insert price here --></td>
+						</tr>`
+					);
+			},
+			error: function(xhr, textStatus, errorThrown) {
+					console.log('Failed to add symbol');
+			}
+	});
+}
+
+// Function to delete a symbol
+function deleteSymbol(symbolName) {
+	$.ajax({
+		url: '/watchlist/delete-symbol',
+		method: 'DELETE',
+		contentType: 'application/json',
+		data: JSON.stringify({ name: symbolName }),
+		success: function(response) {
+			console.log('Symbol deleted successfully !!');
+
+			// Remove the row from the table
+			$('#watchlist-table tbody tr').each(function() {
+				if ($(this).find('td:eq(1)').text() === symbolName) {
+					$(this).remove();
+					return false; // Exit the loop after removing the row
+				}
+			});
+		},
+		error: function(xhr, textStatus, errorThrown) {
+			//console.log(xhr.responseText);
+			console.log(errorThrown);
+			//console.log('Failed to delete symbol');
+		}
+	});
+}
+
+// Function to fetch updated data and update the table
+function fetchUpdatedData() {
+	$.ajax({
+			url: '/watchlist/get-symbols',
+			method: 'GET',
+			success: function(response) {
+					console.log('Data succesfully updated');
+					updateTable(response);
+			},
+			error: function(xhr, textStatus, errorThrown) {
+					console.log('Failed to fetch updated data');
+			}
+	});
+}
+
+// Function to update the table with new data
+function updateTable(data) {
+	var tableBody = $('#watchlist-table tbody');
+	tableBody.empty(); // Clear the existing table rows
+	
+	// Iterate over the data and append new table rows
+	data.forEach(function(row) {
+			tableBody.append(
+					`<tr class="table-row">
+							<td>
+									<button class="delete-btn">
+											<i class="bi bi-trash3"></i>
+									</button>
+							</td>
+							<td>${row.symbol}</td>
+							<td>${row.price}</td>
+					</tr>`
+			);
+	});
+}
+
+// jQuery document ready function
 $(document).ready(function() {
-  $('#addSymbolBtn').click(function() {
-    var symbolInput = $('#symbolInput').val();
-    var data = { name: symbolInput };
-  
-    $.ajax({
-      url: '/watchlist/add-symbol',
-      method: 'POST',
-      contentType: 'application/json',
-      data: JSON.stringify(data),
-      success: function(response) {
-        console.log('Symbol added successfully');
-      },
-      error: function(xhr, textStatus, errorThrown) {
-        console.log('Failed to add symbol');
-      }
-    });
-  });
+	// Call fetchUpdatedData() when the page loads
+	// fetchUpdatedData();
+
+	// Attach click event handler to the addSymbolBtn button
+	$('#addSymbolBtn').click(function() {
+			addSymbol();
+	});
+});
+
+$(document).ready(function() {
+	// Attach click event handler to the delete buttons within the watchlist table
+	$('#watchlist-table tbody').on('click', '.delete-btn', function() {
+			var symbolName = $(this).closest('tr').find('td:eq(1)').text(); // Assuming symbol name is in the second column (index 1)
+			deleteSymbol(symbolName);
+	});
 });
