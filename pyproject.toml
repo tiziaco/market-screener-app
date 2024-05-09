@@ -15,6 +15,7 @@ websocket = "^0.2.1"
 websocket-client = "^1.7.0"
 flask-sqlalchemy = "^3.1.1"
 python-dotenv = "^1.0.1"
+itrader = {git = "git@github.com:tiziaco/intelli-trader.git"}
 
 
 [tool.poetry.group.dev.dependencies]
