@@ -1,3 +1,0 @@
-[submodule "app/intelli-trader"]
-	path = app/intelli-trader
-	url = git@github.com:tiziaco/intelli-trader.git
