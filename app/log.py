@@ -6,7 +6,8 @@ from typing import Union
 LoggingHandler = Union[logging.StreamHandler, logging.FileHandler]
 
 def init_logger(config):
-	logger = logging.getLogger()
+	print(os.getenv("APP_NAME"))
+	logger = logging.getLogger(os.getenv("APP_NAME"))
 	logger.setLevel(logging.DEBUG) # Overall minimum logging level
 	formatter = logging.Formatter(config.LOGGING_FORMAT)
 	

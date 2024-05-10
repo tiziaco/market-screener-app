@@ -2,6 +2,7 @@ import os
 from threading import Thread
 from flask import request
 from dotenv import load_dotenv
+from itrader.trading_system.backtest_trading_system import TradingSystem
 from app import init_app, logger
 
 ## Load environment variables
@@ -23,8 +24,9 @@ def handle_connect():
 def handle_disconnect():
 	logger.info('SERVER: Client disconnected')
 
-if __name__ == '__main__':
-	stream_thread = Thread(target=ws.stream_data)
-	stream_thread.start()
+itrader = TradingSystem()
+stream_thread = Thread(target=ws.stream_data)
+stream_thread.start()
 
+if __name__ == '__main__':
 	socketio.run(app, debug=True)
