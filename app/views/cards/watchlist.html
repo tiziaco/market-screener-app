@@ -1,0 +1,40 @@
+<!-- Watchlist Card -->
+<div class="card flex-fill rounded-4">
+	<div class="card-body rounded-4">
+		<div class="row mb-3">
+			<div class="col">
+				<div class="d-flex justify-content-between align-items-center">
+					<h4 class="card-title">Watchlist</h4>
+					<button type="button" class="add-symbol-btn" data-bs-toggle="modal" data-bs-target="#addSymbolModal">
+						<i class="bi bi-plus-circle"></i>
+					</button>
+				</div>
+			</div>
+		</div>
+		<!-- Example symbol -->
+		<div class="card-content" style="max-height: 100%; overflow-y: auto;">
+			<table class="table " id="watchlist-table"">
+				<thead>
+					<tr>
+						<th scope="col" class="delete-column"></th>
+						<th scope="col" class="symbol-column">Symbol</th>
+						<th scope="col" class="price-column">Price</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for row in table_data %}
+					<tr class="table-row">
+						<td>
+							<button class="delete-btn">
+								<i class="bi bi-trash3"></i>
+							</button>
+						</td>
+						<td>{{ row['symbol'] }}</td>
+						<td>{{ row['price'] }}</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>				
+		</div>
+	</div>
+</div>

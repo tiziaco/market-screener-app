@@ -1,0 +1,52 @@
+<!-- Screener Card -->
+<div class="card flex-fill rounded-4">
+	<div class="card-body rounded-4">
+		<!-- Card header -->
+		<div class="row mb-3">
+			<div class="col">
+				<div class="d-flex justify-content-between align-items-center">
+					<h4 class="card-title">Screeners</h4>
+				</div>
+			</div>
+		</div>
+		<!-- Card body -->
+		<div class="row mb-3">
+			<div class="col">
+				<table class="table table-striped" id="screeners-table">
+					<thead>
+						<tr>
+							<th class="text-center">ID</th>
+							<th class="text-center">Name</th>
+							<th class="text-center">Active</th>
+							<th class="text-center">Timeframe</th>
+							<th class="text-center">Frequency</th>
+							<th class="text-center">Tickers Number</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for screener_id, screener_details in screener_data.items() %}
+						<tr>
+							<td class="text-center">{{ screener_details['screener_id'] }}</td>
+							<td class="text-center">{{ screener_details['screener_name'] }}</td>
+							<td class="text-center">
+								{% if screener_details['is_active'] %}
+									<button class="btn" id="screener-toggle">
+										<i class="bi bi-toggle-on toggle-icon"></i> <!-- Show this icon if is_active is True -->
+									</button>
+								{% else %}
+									<button class="btn" id="screener-toggle">
+										<i class="bi bi-toggle-off toggle-icon"></i> <!-- Show this icon if is_active is False -->
+									</button>
+								{% endif %}
+							</td>
+							<td class="text-center">{{ screener_details['timeframe'] }}</td>
+							<td class="text-center">{{ screener_details['frequency'] }}</td>
+							<td class="text-center">{{ screener_details['tickers_nbr'] }}</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>				
+			</div>
+		</div>
+	</div>
+</div>
