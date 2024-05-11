@@ -110,12 +110,60 @@ function updateTable(data) {
 	});
 }
 
+/* Screeners callback */
+// Function to activate a screener
+function activateScreener(iconElement, screenerId) {
+
+	$.ajax({
+		url: '/activate_screener',
+		method: 'POST',
+		contentType: 'application/json',
+		data: JSON.stringify({ screener_index: parseInt(screenerId, 10) }),
+		success: function(response) {
+			console.log('Screener activated successfully !!');
+
+			// Update the button icon
+			$(iconElement).removeClass('bi-toggle-off').addClass('bi-toggle-on');
+
+			// Optionally, update the UI or perform other actions after activation
+		},
+		error: function(xhr, textStatus, errorThrown) {
+			console.error(errorThrown);
+			// Optionally, handle errors
+		}
+	});
+}
+
+// Function to deactivate a screener
+function deactivateScreener(iconElement, screenerId) {
+
+	$.ajax({
+		url: '/deactivate_screener',
+		method: 'POST',
+		contentType: 'application/json',
+		data: JSON.stringify({ screener_index: parseInt(screenerId, 10) }),
+		success: function(response) {
+			console.log('Screener deactivated successfully !!');
+
+			// Update the button icon
+			$(iconElement).removeClass('bi-toggle-on').addClass('bi-toggle-off');
+
+			// Optionally, update the UI or perform other actions after deactivation
+		},
+		error: function(xhr, textStatus, errorThrown) {
+			console.error(errorThrown);
+			// Optionally, handle errors
+		}
+	});
+}
+
+
 // jQuery document ready function
 $(document).ready(function() {
 	// Attach click event handler to the addSymbolBtn button
 	$('#addSymbolBtn').click(function(event) {
 		// Prevent the default form submission behavior
-        event.preventDefault();
+		event.preventDefault();
 		addSymbol();
 	});
 });
@@ -125,5 +173,22 @@ $(document).ready(function() {
 	$('#watchlist-table tbody').on('click', '.delete-btn', function() {
 			var symbolName = $(this).closest('tr').find('td:eq(1)').text();
 			deleteSymbol(symbolName);
+	});
+});
+
+$(document).ready(function() {
+	// Attach click event handler to the delete buttons within the watchlist table
+	$('#screeners-table tbody').on('click', '#screener-toggle', function(event) {
+		event.preventDefault();
+		var screenerId = $(this).closest('tr').find('td:eq(0)').text();
+		var iconElement = $(this).closest('tr').find('.btn').find('.toggle-icon');
+		var classesArray = Array.from(iconElement[0].classList)
+		var isActive = Array.from(classesArray).includes('bi-toggle-on');
+		console.log('Screener ID: ' + screenerId + ' Active: ' + isActive);
+		if (isActive) {
+			deactivateScreener(iconElement, screenerId);
+		} else {
+			activateScreener(iconElement, screenerId);
+		}
 	});
 });
