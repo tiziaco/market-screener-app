@@ -2,7 +2,7 @@ import json
 from flask import Response, Blueprint, jsonify, request
 from threading import Thread
 
-from app import ws, logger, wc
+from app import ws, logger, wc, itrader
 
 api_blueprint = Blueprint('api', __name__)
 
@@ -56,3 +56,32 @@ def watchlist_delete_symbol():
 def watchlist_get_symbols():
 	symbol_dict = wc.get_all_symbols()
 	return jsonify(symbol_dict), 200
+
+## Screeners routes
+@api_blueprint.route('/activate_screener', methods=['POST'])
+def activate_screener_route():
+    """Activate a screener route"""
+    data = request.get_json()
+    screener_index = data.get('screener_index')
+
+    if screener_index is None:
+        return jsonify({'error': 'Screener index is required'}), 400
+
+    if itrader.screeners_handler.activate_screener(screener_index):
+        return jsonify({'message': f'Screener {screener_index} activated'}), 200
+    else:
+        return jsonify({'error': 'Invalid screener index'}), 400
+
+@api_blueprint.route('/deactivate_screener', methods=['POST'])
+def deactivate_screener_route():
+    """Deactivate a screener route"""
+    data = request.get_json()
+    screener_index = data.get('screener_index')
+
+    if screener_index is None:
+        return jsonify({'error': 'Screener index is required'}), 400
+
+    if itrader.screeners_handler.deactivate_screener(screener_index):
+        return jsonify({'message': f'Screener {screener_index} deactivated'}), 200
+    else:
+        return jsonify({'error': 'Invalid screener index'}), 400
