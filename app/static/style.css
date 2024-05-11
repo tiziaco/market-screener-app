@@ -56,8 +56,35 @@ button {
     display: inline-block;
 }
 
+/* Add symbol button style */
+.add-symbol-btn {
+    font-size: 24px;
+    color: rgb(94, 94, 94);
+}
+
+/* Add symble button hover effect */
+.add-symbol-btn:hover {
+    color: rgb(0, 162, 105);
+}
+
 /* Adjust padding and margin for the icon */
 .delete-btn i {
     padding: 0;
     margin: 0;
+}
+
+table td, table tr {
+    background-color: red;
+}
+
+table {
+    background-color: red;
+}
+
+body {
+    background-color: red;
+}
+
+.card-body {
+    background-color: #8000ff; /* Red color */
 }
