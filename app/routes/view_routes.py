@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template
-from app import wc
+from app import wc, itrader
 
 views_blueprint = Blueprint('views', __name__)
 
@@ -13,4 +13,7 @@ def index():
     #     {'symbol': 'BTCUSD', 'price': '$60,000'},
     #     {'symbol': 'ETHUSD', 'price': '$2,500'},
     # ]
-    return render_template('index.html', table_data=table_data)
+    screener_data = itrader.screeners_handler.to_dict()
+    return render_template('index.html',
+                           table_data=table_data,
+                           screener_data=screener_data)
