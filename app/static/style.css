@@ -64,7 +64,7 @@ button {
 
 /* Add symble button hover effect */
 .add-symbol-btn:hover {
-    color: rgb(0, 162, 105);
+    color: rgb(0, 0, 0);
 }
 
 /* Adjust padding and margin for the icon */
@@ -73,18 +73,22 @@ button {
     margin: 0;
 }
 
-table td, table tr {
-    background-color: red;
+table td, table tr, table th {
+    background-color: transparent !important;
+    border: 0;
 }
 
-table {
-    background-color: red;
-}
-
-body {
-    background-color: red;
-}
+.card {
+    box-shadow: 0 0 10px 0 rgba(100, 100, 100, 0.26);
+    height: 100%;
+    overflow-y: auto;
+  }
 
 .card-body {
-    background-color: #8000ff; /* Red color */
+    background-color: #8e8e8e; /* Red color */
+}
+
+.row-400 {
+    min-height: 400px; /* Minimal height */
+    max-height: 400px; /* Maximal height */
 }
