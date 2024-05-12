@@ -12,4 +12,9 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <!-- Include Socket.IO library -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.5/socket.io.js"></script>
+  <!-- Session storage Data -->
+  <script>
+    sessionStorage.setItem('lastClose', '{{ last_close | safe }}');
+    sessionStorage.setItem('close24h', '{{ close_24h | safe }}');
+  </script>
 </head>
