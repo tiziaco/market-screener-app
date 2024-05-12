@@ -11,12 +11,12 @@ app, socketio, ws, db, itrader = init_app()
 with app.app_context():
 	db.create_all()
 
-#itrader = TradingSystem()
+itrader_thread = Thread(target=itrader.run)
+itrader_thread.start()
+
 stream_thread = Thread(target=ws.stream_data)
 stream_thread.start()
 
-itrader_thread = Thread(target=itrader.run)
-itrader_thread.start()
 
 @socketio.on('connect')
 def handle_connect():

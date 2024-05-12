@@ -1,3 +1,4 @@
+import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_socketio import SocketIO
@@ -36,6 +37,8 @@ def init_app():
 	global itrader
 
 	app = Flask(__name__, template_folder='views')
+	# Set a secret key
+	app.secret_key = os.urandom(24)
 	app.config.from_object(config)
 	db.init_app(app)
 	socketio.init_app(app)

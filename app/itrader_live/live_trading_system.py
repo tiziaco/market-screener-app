@@ -59,7 +59,7 @@ class TradingSystem(object):
 		Load the data in the price handler and define the pings vector
 		for the for-loop iteration.
 		"""
-		logger.info('TRADING SYSTEM: Initialising backtest session')
+		logger.info('SYSTEM: Initialising Live session')
 
 		self.universe.init_universe(
 			self.strategies_handler.get_strategies_universe(),
@@ -68,6 +68,7 @@ class TradingSystem(object):
 		self.price_handler.set_timeframe(self.strategies_handler.min_timeframe,
 										self.screeners_handler.min_timeframe)
 		self.price_handler.load_data()
+		self.screeners_handler.init_screeners()
 
 	def _run_live_session(self):
 		"""
@@ -91,12 +92,12 @@ class TradingSystem(object):
 		
 		logger.info('SYSTEM |    LIVE SESSION TERMINATED')
 
-	def run(self, print_summary=False):
+	def run(self):
 		"""
 		Runs the backtest and print out the backtest statistics
 		at the end of the simulation.
 		"""
-		self._initialise_live_session()
+		#self._initialise_live_session()
 		self._run_live_session()
 
 		# Close the logger file
