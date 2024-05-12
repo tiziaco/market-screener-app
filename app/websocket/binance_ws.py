@@ -2,6 +2,7 @@ import websocket, json
 import pandas as pd
 import datetime as dt
 from queue import Queue
+from cachetools import Cache
 
 from itrader.price_handler.data_provider import PriceHandler
 from itrader.events_handler.event import PingEvent
@@ -31,18 +32,20 @@ class BinanceWebsocket():
 		self.timeframe = '1m'
 		self.websocket = self._initialise_websocket()
 		self.is_connected = False
-		self.ticks=0
+		self.last_tick = Cache(10000)
 
+		self.ticks=0
 		self._closed=0
 		self._send_ping = False
 		logger.info("WEBSOCKET -> OK")
 
 
-	def send_price_data(self, data):
+	def send_price_data(self):
 		"""
 		Send the last price update to the client via Websocket.
 		"""
-		self.socketio.emit('priceData', data)
+		cache_dict = {key: value for key, value in self.last_tick.items()}
+		self.socketio.emit('priceData', cache_dict)
 
 	def stream_data(self):
 		"""
@@ -92,7 +95,8 @@ class BinanceWebsocket():
 		msg = json.loads(message)['data']
 		self.ticks += 1
 		# Emit a message with SocketIO for the client
-		self.send_price_data(self.parse_price_dict(msg))
+		#self.send_price_data(self.parse_price_dict(msg))
+		self._store_tick(msg)
 		#print(f'{msg['k']['s']}: {msg['k']['c']}')
 
 		if msg['s'] in self.price_handler.symbols:
@@ -178,15 +182,18 @@ class BinanceWebsocket():
 
 		self.ticks = 0
 
-	def _store_tick(self, x):
+	def _store_tick(self, msg):
 		"""
 		Clean, format and store in a dict the data for each symbol present in the WebSocket message
 		
 		Not used yet.
 		"""
-		# Format the message recived from the BINANCE server
-		self.tick_data.setdefault(x['s'], {}).setdefault(
-			pd.to_datetime(x['E'], unit='ms', utc=True), {'price':x['k']['c']})
+		 # Extract relevant data from the message
+		symbol = msg.get('s')
+		last_price = float(msg.get('k', {}).get('c', 0))  # Default to 0 if price data is not available
+
+		# Store the data in the cache
+		self.last_tick[symbol] = last_price
 
 	@staticmethod
 	def parse_price_dict(msg: dict):
