@@ -1,0 +1,52 @@
+<div class="card flex-fill rounded-4">
+	<div class="card-body rounded-4">
+		<!-- Card header -->
+		<div class="row mb-3">
+			<div class="col">
+				<div class="d-flex justify-content-between align-items-center">
+					<h4 class="card-title">Market overview</h4>
+				</div>
+			</div>
+		</div>
+		<!-- Card body -->
+		<div class="row mb-3">
+			<!-- First column with the best performing table -->
+			<div class="col">
+				<table class="table table-striped" id="best-performing-table">
+					<thead>
+						<tr>
+							<th class="text-center" colspan="3" style="font-size: 20px;">Best Performing</th>
+						</tr>
+						<tr>
+							<th class="text-center">Symbol</th>
+							<th class="text-center">Price</th>
+							<th class="text-center">Percentage Change</th>
+						</tr>
+					</thead>
+					<tbody>
+						<!-- Table rows for best performing symbols will be dynamically generated here -->
+					</tbody>
+				</table>
+			</div>
+
+			<!-- Second column with the worst performing table -->
+			<div class="col">
+				<table class="table table-striped" id="worst-performing-table">
+					<thead>
+						<tr>
+							<th class="text-center" colspan="3" style="font-size: 20px;">Worst Performing</th>
+						</tr>
+						<tr>
+							<th class="text-center">Symbol</th>
+							<th class="text-center">Price</th>
+							<th class="text-center">Percentage Change</th>
+						</tr>
+					</thead>
+					<tbody>
+						<!-- Table rows for worst performing symbols will be dynamically generated here -->
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
