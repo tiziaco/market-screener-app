@@ -28,6 +28,8 @@
 //     xhr.send();
 // });
 
+// *** Session storage *** //
+
 // *** Whatchlist callbacks *** //
 
 // Function to add a symbol
@@ -191,4 +193,11 @@ $(document).ready(function() {
 			activateScreener(iconElement, screenerId);
 		}
 	});
+});
+
+$(document).ready(function() {
+	// Call the calculatePercentageDifference function after the DOM is fully loaded
+	console.log("TEST")
+	update_performance_table();
+	
 });
