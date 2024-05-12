@@ -17,6 +17,7 @@ flask-sqlalchemy = "^3.1.1"
 python-dotenv = "^1.0.1"
 itrader = {git = "git@github.com:tiziaco/intelli-trader.git"}
 apscheduler = "^3.10.4"
+cachetools = "^5.3.3"
 
 
 [tool.poetry.group.dev.dependencies]
