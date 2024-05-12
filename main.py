@@ -2,7 +2,7 @@ from threading import Thread
 from flask import request
 from dotenv import load_dotenv
 from app import init_app, logger
-
+from apscheduler.schedulers.background import BackgroundScheduler
 ## Load environment variables
 load_dotenv()
 
@@ -11,9 +11,16 @@ app, socketio, ws, db, itrader = init_app()
 with app.app_context():
 	db.create_all()
 
+# Initialize APScheduler
+scheduler = BackgroundScheduler()
+scheduler.add_job(ws.send_price_data, 'interval', seconds=2)
+scheduler.start()
+ 
+# Start the itrader thread
 itrader_thread = Thread(target=itrader.run)
 itrader_thread.start()
 
+# Start streaming data thread
 stream_thread = Thread(target=ws.stream_data)
 stream_thread.start()
 
